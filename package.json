@@ -1,0 +1,29 @@
+{
+  "name": "vant-tree-shaking",
+  "version": "1.0.0",
+  "description": "微信小程序按需引入vant组件，自动清除项目中未使用的vant组件，减少代码包大小",
+  "bin": {
+    "vant-tree-shaking": "bin/vant-tree-shaking.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cafehaus/vant-tree-shaking.git"
+  },
+  "keywords": [
+    "vant",
+    "tree-shaking",
+    "miniapp",
+    "wechat",
+    "vue"
+  ],
+  "author": "cafehaus",
+  "email": "510878689@qq.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cafehaus/vant-tree-shaking/issues"
+  },
+  "homepage": "https://github.com/cafehaus/vant-tree-shaking#readme"
+}
