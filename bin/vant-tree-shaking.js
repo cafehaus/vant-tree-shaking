@@ -26,7 +26,7 @@ function readFile(filePath) {
     getUsingComponents(filePath, vantSet)
   }
 }
-readFile('./')
+readFile(process.cwd())
 
 // 2、项目中使用到的 vant 组件依赖的其他 vant 组件
 function readVantDir() {
@@ -40,6 +40,7 @@ function readVantDir() {
 
   // 3、删除未使用到 vant 组件目录
   const usedVant = new Set([...vantSet, ...dependentSet])
+  // console.log('项目中使用和依赖到的所有vant组件：', usedVant)
   for (let i = files.length - 1; i >= 0; i--) {
     const cur = files[i]
     if (!COMMON_DIRS.includes(cur) && !usedVant.has(`van-${cur}`)) {
