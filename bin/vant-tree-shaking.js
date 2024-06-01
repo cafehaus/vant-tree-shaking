@@ -40,7 +40,7 @@ function readVantDir() {
 
   // 3、删除未使用到 vant 组件目录
   const usedVant = new Set([...vantSet, ...dependentSet])
-  // console.log('项目中使用和依赖到的所有vant组件：', usedVant)
+  console.log('项目中使用和依赖到的所有vant组件：', usedVant)
   for (let i = files.length - 1; i >= 0; i--) {
     const cur = files[i]
     if (!COMMON_DIRS.includes(cur) && !usedVant.has(`van-${cur}`)) {
@@ -67,6 +67,9 @@ function getUsingComponents(filePath, setList) {
     for (const key in usingComponents) {
       if (key.startsWith('van-')) {
         setList.add(key)
+        // 项目中使用的 vant 组件还有可能还有使用其他的 vant 组件，所以这里需要继续递归
+        const curPath = path.join(VANT_PATH, key.replace('van-', ''), 'index.json')
+        getUsingComponents(curPath, setList)
       }
     }
   } catch (err) {
