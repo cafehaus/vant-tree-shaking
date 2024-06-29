@@ -5,10 +5,36 @@ const path = require('node:path')
 
 const IGNORE_DIRS = ['node_modules', 'miniprogram_npm'] // 需要忽略的目录
 const COMMON_DIRS = ['common', 'mixins', 'wxs', 'definitions'] // vant 公共目录（不能删除的）
-const VANT_PATH = 'miniprogram_npm/@vant/weapp' // vant 组件目录路径
+const DEFAULT_VANT_PATH = 'miniprogram_npm/@vant/weapp' // 默认的 vant 组件目录路径
+const DEFAULT_VANT_PATH_TS = 'miniprogram/miniprogram_npm/@vant/weapp' // TS 小程序项目的 vant 组件目录路径
+let VANT_PATH = DEFAULT_VANT_PATH // vant 组件目录路径
 
 let vantSet = new Set() // 项目中使用的 vant 组件
 let dependentSet = new Set() // 项目中使用到的 vant 组件内部依赖的其他 vant 组件
+
+
+/**
+ * 校验 vant 组件目录是否存在
+ */
+function checkVantPath() {
+  const params = getProcessArgv()
+  const vantPath = params.vantPath || params.vantpath
+  if (vantPath) {
+    VANT_PATH = vantPath
+  }
+
+  if (!fs.existsSync(VANT_PATH)) {
+    // 默认的或通过 --vantPath 参数指定的目录都不存在时，再去试下前面加上 miniprogram 的路径（小程序用 TS 新建的项目开发目录在 miniprogram 目录下面）
+    if (fs.existsSync(DEFAULT_VANT_PATH_TS)) {
+      VANT_PATH = DEFAULT_VANT_PATH_TS
+      return
+    }
+
+    throw new Error('vant 组件目录不存在，请核对或通过 --vantPath 参数指定')
+  }
+}
+checkVantPath()
+
 
 // 1、扫描项目中的所有 json 文件，找出项目中使用到的所有 vant 组件
 function readFile(filePath) {
@@ -110,4 +136,22 @@ function deleteDir(dirPath) {
 	} else {
 		fs.unlinkSync(dirPath)
 	}
+}
+
+/**
+ * 获取命令行参数
+ * @returns {object} 参数对象
+ */
+function getProcessArgv() {
+  const arguments = process.argv.slice(2)
+  const params = Object.fromEntries(
+    arguments.reduce((pre, item) => {
+      if (item.startsWith('--')) {
+        return [...pre, item.slice(2).split('=')]
+      }
+      return pre
+    }, []),
+  )
+
+  return params
 }

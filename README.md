@@ -2,13 +2,7 @@
 微信小程序按需引入 vant 组件，自动清除项目中未使用的 vant 组件，减少代码包大小，避免因未使用到的 vant 组件触发隐私协议提交审核时被拒
 
 ## 在微信小程序项目中使用
-### 全局安装
-```
-npm install -g vant-tree-shaking
-```
-在小程序开发者工具中上传小程序代码前，直接在项目根目录终端中运行命令：vant-tree-shaking，成功后会在控制台打印出：vant-tree-shaking success
-
-### 本地安装
+### 项目内安装(推荐)
 ```
 npm install -D vant-tree-shaking
 ```
@@ -30,6 +24,23 @@ npm install -D vant-tree-shaking
 }
 ```
 在小程序开发者工具中上传小程序代码前，直接在项目根目录终端中运行命令：npm run vant，成功后会在控制台打印出：vant-tree-shaking success
+
+### 全局安装
+```
+npm install -g vant-tree-shaking
+```
+在小程序开发者工具中上传小程序代码前，直接在项目根目录终端中运行命令：vant-tree-shaking，成功后会在控制台打印出：vant-tree-shaking success
+
+### 自定义参数
+#### --vantPath
+指定自定义的 vant 组件目录，在小程序开发者工具中选用 TS 新建的项目，实际开发目录会在 miniprogram 之下，部分框架搭建的小程序项目中，这种情况我们可以通过 --vantPath 参数来指定实际的 vant 组件目录：
+```shell
+# 方式一：配置在 scripts 脚本中(推荐)
+vant-tree-shaking --vantPath=miniprogram/miniprogram_npm/@vant/weapp
+
+# 方式二：直接在命令行中指定，注意脚本别名 vant 根据自己的实际设置修改
+npm run vant -- --vantPath=miniprogram/miniprogram_npm/@vant/weapp
+```
 
 ## 注意事项
 * 本工具只针对 vant 的 1.x 版本，如果你使用的还是老的 0.x 版本建议先升级到最新的 1.x 版本后再使用
