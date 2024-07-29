@@ -66,6 +66,13 @@ function readVantDir() {
 
   // 3、删除未使用到 vant 组件目录
   const usedVant = new Set([...vantSet, ...dependentSet])
+
+  // fix：picker 组件特殊处理，内部引用的 picker-column、loading 没有加 van- 前缀
+  if (usedVant.has('van-picker')) {
+    usedVant.add('van-picker-column')
+    usedVant.add('van-loading')
+  }
+
   console.log('项目中使用和依赖到的所有vant组件：', usedVant)
   for (let i = files.length - 1; i >= 0; i--) {
     const cur = files[i]

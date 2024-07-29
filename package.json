@@ -1,6 +1,6 @@
 {
   "name": "vant-tree-shaking",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "微信小程序按需引入vant组件，自动清除项目中未使用的vant组件，减少代码包大小，避免因未使用到的 vant 组件触发隐私协议提交审核时被拒",
   "bin": {
     "vant-tree-shaking": "bin/vant-tree-shaking.js"
